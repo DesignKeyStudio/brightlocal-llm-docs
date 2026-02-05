@@ -64,7 +64,7 @@ This was a batch method for fetching reviews using business information.
 | city | string | Yes | City name |
 | postcode | string | Yes | ZIP/postal code |
 | local-directory | string | Yes | Directory identifier (see supported directories) |
-| country | string | Yes | Country code (USA only for this endpoint) |
+| country | string | Yes | Country code (see supported countries below) |
 | street-address | string | No | Street address |
 | telephone | string | No | Phone number |
 | sort | string | No | Sort order: 'rating' or 'date' |

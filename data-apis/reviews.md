@@ -28,7 +28,7 @@ Fetches reviews using a direct profile URL from a review site.
 | api-key | string | Yes | Your API key |
 | batch-id | integer | Yes | Batch container ID |
 | profile-url | string | Yes | Directory profile URL |
-| country | string | Yes | Country code (currently: "USA") |
+| country | string | Yes | Country code (e.g., "USA", "GBR", "CAN") - see supported countries |
 | sort | string | No | Sort order: 'rating' or 'date' (default: 'date') |
 | reviews-limit | integer/string | No | Number of reviews or 'all' (default: 100) |
 | date-from | string | No | Filter reviews from date (format: Y-m-d or Y-m-d H:i:s) |
@@ -94,7 +94,7 @@ Fetches reviews by searching for the business using business details.
 | city | string | Yes | City name |
 | postcode | string | Yes | Postal/ZIP code |
 | local-directory | string | Yes | Directory to search (see supported list) |
-| country | string | Yes | Country code (currently: "USA") |
+| country | string | Yes | Country code (e.g., "USA", "GBR", "CAN") - see supported countries |
 | street-address | string | No | Street address for better matching |
 | telephone | string | No | Phone number (improves result quality) |
 | sort | string | No | Sort order: 'rating' or 'date' (default: 'date') |
@@ -173,6 +173,25 @@ Common directories include:
 - foursquare
 - citysearch
 - And 70+ more industry-specific sites
+
+## Supported Countries
+
+| Code | Country |
+|------|---------|
+| AUS | Australia |
+| CAN | Canada |
+| DEU | Germany |
+| GBR | United Kingdom |
+| HKG | Hong Kong |
+| IRL | Ireland |
+| MAC | Macau |
+| NLD | Netherlands |
+| NZL | New Zealand |
+| PHL | Philippines |
+| SGP | Singapore |
+| TWN | Taiwan |
+| USA | United States |
+| ZAF | South Africa |
 
 ## Notes
 
