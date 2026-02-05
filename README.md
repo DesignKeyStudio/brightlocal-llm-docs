@@ -1,161 +1,207 @@
-# BrightLocal LLM Docs
+# BrightLocal API Documentation
 
-Comprehensive API documentation for BrightLocal's Local SEO Tools, optimized for LLM consumption.
+LLM-optimized markdown documentation for [BrightLocal's Local SEO APIs](https://www.brightlocal.com/local-seo-apis/).
+
+## Table of Contents
+
+- [Overview](#overview)
+- [API Portals](#api-portals)
+- [Authentication](#authentication)
+- [Documentation Index](#documentation-index)
+- [Quick Reference](#quick-reference)
+- [API Patterns](#api-patterns)
+- [Supported Countries](#supported-countries)
+- [Error Codes](#error-codes)
+- [Sources](#sources)
+
+## Overview
+
+BrightLocal provides APIs for local SEO data including:
+
+- **Reviews** - Fetch reviews from 80+ sites (Google, Yelp, Facebook, etc.)
+- **Rankings** - Track search rankings (Google, Bing, Local Pack)
+- **Listings** - Find and fetch business profiles from directories
+- **Citations** - Track and manage business citations
+- **Google Business Profile** - GBP data and competitive analysis
+- **Domain Metrics** - Backlinks, domain authority, indexed pages
 
 ## API Portals
 
-BrightLocal maintains two API documentation portals:
+BrightLocal maintains two API systems:
 
-| Portal | Base URL | Description |
-|--------|----------|-------------|
-| **Legacy Portal** | `https://tools.brightlocal.com/seo-tools/api` | Older APIs (Batches, Reviews, Citation Tracker) |
-| **Developer Portal** | `https://api.brightlocal.com` | Newer APIs (Rankings, Listings, Clients, Locations) |
+| Portal | Documentation | API Base URL | Auth Method |
+|--------|---------------|--------------|-------------|
+| **Developer Portal** | [developer.brightlocal.com](https://developer.brightlocal.com/) | `https://api.brightlocal.com` | `x-api-key` header |
+| **Legacy Portal** | [apidocs.brightlocal.com](https://apidocs.brightlocal.com/) | `https://tools.brightlocal.com/seo-tools/api` | `api-key` parameter |
 
 ## Authentication
 
-### Legacy Portal (apidocs.brightlocal.com)
+### Developer Portal
 
-Include API key as a parameter:
 ```bash
-curl -X POST "https://tools.brightlocal.com/seo-tools/api/v4/batch?api-key=YOUR_API_KEY"
+curl -X POST "https://api.brightlocal.com/data/v1/rankings/search" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"search_engine": "google", "search_term": "pizza", "country": "USA"}'
 ```
 
-### Developer Portal (developer.brightlocal.com)
+### Legacy Portal
 
-Include API key in the `x-api-key` header:
 ```bash
-curl --header 'x-api-key: YOUR_API_KEY' https://api.brightlocal.com/...
+curl -X POST "https://tools.brightlocal.com/seo-tools/api/v4/batch" \
+  -d "api-key=YOUR_API_KEY"
 ```
 
-## Documentation Structure
+## Documentation Index
 
-### Core Documentation
+### Core
 
 | Document | Description |
 |----------|-------------|
-| [Getting Started](core/getting-started.md) | Authentication, base URL, API types, quick start guide |
-| [Batches API](core/batches.md) | Batch processing for asynchronous API requests |
-| [Reference](core/reference.md) | Supported countries, directories, error codes |
+| [Getting Started](core/getting-started.md) | Authentication, base URLs, API types, quickstart |
+| [Batches](core/batches.md) | Batch processing for async requests (Legacy Portal) |
+| [Reference](core/reference.md) | Countries, directories, error codes |
 
-### Data APIs - Developer Portal (api.brightlocal.com)
+### Data APIs
 
-These are the newer APIs from the Developer Portal using async request/callback pattern.
+| Document | Portal | Endpoint | Description |
+|----------|--------|----------|-------------|
+| [Rankings](data-apis/rankings.md) | Developer | `/data/v1/rankings/*` | Search rankings (Google, Bing, Local) |
+| [Listings](data-apis/listings.md) | Developer | `/data/v1/listings/*` | Business profiles from directories |
+| [Reviews](data-apis/reviews.md) | Legacy | `/v4/ld/fetch-reviews` | Reviews from 80+ sites |
+| [Offsite SEO](data-apis/offsite-seo.md) | Legacy | `/v4/seo/offsite` | Domain authority, backlinks |
+| [Google Business Profile](data-apis/gbp.md) | Legacy | `/v4/gpw/*` | GBP reports and rankings |
 
-| Document | Endpoint | Description |
-|----------|----------|-------------|
-| [Rankings API](data-apis/rankings.md) | `/data/v1/rankings/*` | Search engine rankings (Google, Bing, Local Finder) |
-| [Listings API](data-apis/listings.md) | `/data/v1/listings/*` | Find and fetch business profiles from directories |
+### Management APIs
 
-### Data APIs - Legacy Portal (Batch Method)
-
-These APIs require requests to be submitted within a batch container.
-
-| Document | Endpoint | Description |
-|----------|----------|-------------|
-| [Reviews API](data-apis/reviews.md) | `/v4/ld/fetch-reviews` | Fetch reviews from 80+ review sites |
-| [Offsite SEO API](data-apis/offsite-seo.md) | `/v4/seo/offsite` | Domain-level SEO metrics |
-| [Google Business Profile API](data-apis/gbp.md) | `/v4/gpw/*` | GBP reports and rankings |
-
-### Management APIs - Developer Portal (api.brightlocal.com)
-
-These are the newer Management APIs from the Developer Portal.
-
-| Document | Endpoint | Description |
-|----------|----------|-------------|
-| [Clients API](management-apis/clients.md) | `/manage/v1/clients/*` | Manage client records |
-| [Locations API](management-apis/locations.md) | `/manage/v1/locations/*` | Manage business locations |
-| [Business Categories API](management-apis/business-categories.md) | `/manage/v1/business-categories/*` | Get business category IDs |
-
-### Management APIs - Legacy Portal (Account Method)
-
-| Document | Endpoint | Description |
-|----------|----------|-------------|
-| [Citation Tracker API](management-apis/citation-tracker.md) | `/v2/ct/*` | Citation tracking and monitoring |
+| Document | Portal | Endpoint | Description |
+|----------|--------|----------|-------------|
+| [Clients](management-apis/clients.md) | Developer | `/manage/v1/clients/*` | Client records |
+| [Locations](management-apis/locations.md) | Developer | `/manage/v1/locations/*` | Business locations |
+| [Business Categories](management-apis/business-categories.md) | Developer | `/manage/v1/business-categories/*` | Category IDs |
+| [Citation Tracker](management-apis/citation-tracker.md) | Legacy | `/v2/ct/*` | Citation monitoring |
 
 ### Deprecated APIs
 
 | Document | Replacement |
 |----------|-------------|
-| [Rank Checker API](deprecated/rank-checker.md) | [Rankings API](data-apis/rankings.md) |
-| [Citation Builder API](deprecated/citation-builder.md) | Citation Builder API (developer.brightlocal.com) |
-| [Deprecated Clients](deprecated/clients.md) | [Clients API](management-apis/clients.md) |
-| [Deprecated Locations](deprecated/locations.md) | [Locations API](management-apis/locations.md) |
-| [Deprecated Rankings](deprecated/rankings.md) | [Rankings API](data-apis/rankings.md) |
+| [Rank Checker](deprecated/rank-checker.md) | [Rankings API](data-apis/rankings.md) |
+| [Citation Builder](deprecated/citation-builder.md) | New Citation Builder API |
+| [Reputation Manager](deprecated/reputation-manager.md) | New Reputation Manager API |
+| [Local Directories](deprecated/local-directories.md) | [Listings API](data-apis/listings.md) |
+| [Old Rankings](deprecated/rankings.md) | [Rankings API](data-apis/rankings.md) |
+| [Old Clients](deprecated/clients.md) | [Clients API](management-apis/clients.md) |
+| [Old Locations](deprecated/locations.md) | [Locations API](management-apis/locations.md) |
 
-## API Types Overview
-
-### Developer Portal - Async Pattern
-
-```
-1. Submit Request → POST /data/v1/rankings/search (get request_id)
-2. Wait for Processing → Either poll or use callback_url
-3. Retrieve Results → GET /data/v1/rankings/results/{request_id}
-```
-
-### Legacy Portal - Batch Method
-
-```
-1. Create Batch → POST /v4/batch
-2. Add Jobs → POST /v4/ld/fetch-reviews (or other job endpoint)
-3. Commit Batch → PUT /v4/batch
-4. Poll Results → GET /v4/batch
-5. Delete Batch → DELETE /v4/batch
-```
-
-### Legacy Portal - Account Method
-
-```
-1. Create Report → POST /v2/ct/add (or similar)
-2. Run Report → POST /v2/ct/run
-3. Get Results → GET /v2/ct/get-results
-4. Delete Report → POST /v2/ct/delete
-```
+See [Deprecated APIs Index](deprecated/README.md) for migration guidance.
 
 ## Quick Reference
 
-### Developer Portal APIs (api.brightlocal.com)
+### Developer Portal Rate Limits
 
-| API | Base Path | Type | Rate Limits |
-|-----|-----------|------|-------------|
-| Rankings | `/data/v1/rankings/*` | Data | POST: 500/min, GET: 600/min |
-| Listings | `/data/v1/listings/*` | Data | POST: 500/min, GET: 600/min |
-| Clients | `/manage/v1/clients/*` | Management | POST/DELETE: 100/min, GET: 300/min |
-| Locations | `/manage/v1/locations/*` | Management | POST/DELETE: 100/min, GET: 300/min |
-| Business Categories | `/manage/v1/business-categories/*` | Management | GET: 300/min |
+| API | POST | GET |
+|-----|------|-----|
+| Rankings | 500/min | 600/min |
+| Listings | 500/min | 600/min |
+| Clients | 100/min | 300/min |
+| Locations | 100/min | 300/min |
+| Business Categories | - | 300/min |
 
-### Legacy Portal APIs (tools.brightlocal.com)
+### Legacy Portal APIs
 
-| API | Version | Type | Status |
+| API | Version | Type | Method |
 |-----|---------|------|--------|
-| Batches | v4 | Core | Current |
-| Reviews | v4 | Batch Method | Current |
-| Offsite SEO | v4 | Batch Method | Current |
-| Google Business Profile | v4 | Account Method | Current |
-| Citation Tracker | v2 | Account Method | Current |
+| Batches | v4 | Core | Batch container |
+| Reviews | v4 | Data | Batch method |
+| Offsite SEO | v4 | Data | Batch method |
+| GBP | v4 | Management | Account method |
+| Citation Tracker | v2 | Management | Account method |
+
+## API Patterns
+
+### Developer Portal (Async)
+
+```
+1. POST request → receive request_id
+2. Poll GET endpoint OR wait for callback_url
+3. GET results using request_id
+```
+
+### Legacy Portal (Batch Method)
+
+```
+1. POST /v4/batch → create batch, get batch-id
+2. POST /v4/ld/fetch-reviews → add job to batch
+3. PUT /v4/batch → commit batch
+4. GET /v4/batch → poll for results
+5. DELETE /v4/batch → cleanup
+```
+
+### Legacy Portal (Account Method)
+
+```
+1. POST /v2/ct/add → create report
+2. POST /v2/ct/run → execute report
+3. GET /v2/ct/get-results → fetch results
+```
 
 ## Supported Countries
 
-AUS, CAN, DEU, GBR, HKG, IRL, MAC, NLD, NZL, PHL, SGP, TWN, USA, ZAF
+| Code | Country |
+|------|---------|
+| AUS | Australia |
+| CAN | Canada |
+| DEU | Germany |
+| GBR | United Kingdom |
+| HKG | Hong Kong |
+| IRL | Ireland |
+| MAC | Macau |
+| NLD | Netherlands |
+| NZL | New Zealand |
+| PHL | Philippines |
+| SGP | Singapore |
+| TWN | Taiwan |
+| USA | United States |
+| ZAF | South Africa |
 
-## Common Error Codes
+## Error Codes
+
+### HTTP Status Codes
 
 | Code | Description |
 |------|-------------|
+| 200 | Success |
+| 201 | Created |
 | 400 | Bad Request - Invalid parameters |
 | 401 | Unauthorized - Invalid API key |
-| 404 | Not Found - Resource does not exist |
-| 429 | Too Many Requests - Rate limit exceeded |
-| INVALID_API_KEY | API key missing or invalid (legacy portal) |
-| INVALID_BATCH_ID | Batch ID not found (legacy portal) |
-| INVALID_REPORT_ID | Report ID not found (legacy portal) |
-| NO_CREDITS | Insufficient credits (legacy portal) |
+| 404 | Not Found |
+| 405 | Method Not Allowed |
+| 429 | Rate Limit Exceeded |
+| 500 | Server Error |
 
-See [Reference](core/reference.md) for complete error code documentation.
+### Legacy Portal Error Codes
+
+| Code | Description |
+|------|-------------|
+| INVALID_API_KEY | API key missing or invalid |
+| INVALID_BATCH_ID | Batch ID not found |
+| INVALID_REPORT_ID | Report ID not found |
+| NO_CREDITS | Insufficient credits |
+| REPORT_RUNNING | Report already executing |
+
+See [Reference](core/reference.md) for complete error documentation.
+
+## Sources
+
+This documentation was extracted from:
+
+- [BrightLocal Developer Portal](https://developer.brightlocal.com/) - New APIs
+- [BrightLocal API Reference](https://apidocs.brightlocal.com/) - Legacy APIs
+- [BrightLocal Local SEO APIs](https://www.brightlocal.com/local-seo-apis/) - Overview
 
 ## Notes
 
-- All responses are JSON-encoded
-- Trial API keys have limited free credits
-- Use callbacks for async notification instead of polling
-- The Developer Portal (developer.brightlocal.com) contains newer, recommended APIs
-- Legacy portal APIs are still supported but may be deprecated in the future
+- All responses are JSON
+- Trial API keys have limited credits
+- Developer Portal APIs are recommended for new integrations
+- Legacy Portal APIs remain supported for Reviews, Offsite SEO, GBP, and Citation Tracker
